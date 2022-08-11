@@ -27,6 +27,7 @@ class dataObject {
     
 }
 const CSVtoArray = function(text) {
+    // Courtesy of niry, at https://stackoverflow.com/a/41563966/17545237
     let p = '', row = [''], ret = [row], i = 0, r = 0, s = !0, l;
     for (l of text) {
         if ('"' === l) {
