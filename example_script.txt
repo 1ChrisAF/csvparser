@@ -1,0 +1,43 @@
+json_text = 
+"APPLICATIONS":
+[
+	{
+		"APPLICATION": {
+			"ID": 1,
+			"name": "app1",
+			"owner": "person1@domain.com",
+			...,
+			...
+		},
+		"APPLICATION": {
+			"ID": 2,
+			"name": "app2",
+			"owner": "person2@domain.com",
+			...,
+			...
+		},
+		"APPLICATION": {
+			"ID": 3,
+			"name": "app3",
+			"owner": "person3@domain.com",
+			...,
+			...
+		},
+		...,
+		...
+]	
+
+DECLARE @json NVARCHAR(MAX);
+SET @json = N'{json_text};
+
+
+SELECT *
+FROM OPENJSON(@json, '$.APPLICATIONS')
+WITH(
+	/* Only need to instantiate fields once, will be used for all APPLICATION entries */
+	ID INT '$.APPLICATION.ID',
+	Name NVARCHAR(MAX) '$.APPLICTION.name',
+	Owner NVARCHAR(MAX) '$.APPLICATION.owner',		
+	...,
+	...
+)
