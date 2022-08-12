@@ -1,5 +1,6 @@
-
+// Class for row objects
 class dataObject {
+    // CSV column names
     seq;
     name_first;
     name_last;
@@ -24,7 +25,6 @@ class dataObject {
         this.pick = j;
         this.date = k;
     }
-    
 }
 const CSVtoArray = function(text) {
     // Courtesy of niry, at https://stackoverflow.com/a/41563966/17545237
@@ -42,13 +42,15 @@ const CSVtoArray = function(text) {
     }
     return ret;
 }
-let fs = require('fs');
-require('./dataObject.js');
-let data = fs.readFileSync('convertcsv.csv');
-dataString = data.toString();
+// Pull CSV text passed from PS caller
+let dataString = process.argv[2];
+// Parse into dataAray, an array of CSV lines;
+// string[][]
 let dataArray = CSVtoArray(dataString);
-// let headers = dataArray[0];
 let objectArray = [];
+// Create individual objects which represent each row; iterate
+// from 1 and not 0 as 0 only contains headers; add each object
+// to objectArray ()
 for (let z = 1; z < dataArray.length; z++) {
     let a = dataArray[z][0];
     let b = dataArray[z][1];
@@ -64,10 +66,6 @@ for (let z = 1; z < dataArray.length; z++) {
     let newObject = new dataObject(a,b,c,d,e,f,g,h,i,j,k);
     objectArray.push(newObject);
 }
-/*
-let fileText = '';
-for (let i = 0; i < objectArray.length; i++) {
-    fileText += JSON.stringify(objectArray[i]) + '\n';
-}
-*/
-fs.writeFileSync('parsedData.txt',JSON.stringify(objectArray));
+// Parse objectArray into a JSON string and pass the JSON
+// string back to PS caller.
+console.log(JSON.stringify(objectArray));
